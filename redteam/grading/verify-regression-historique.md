@@ -1,0 +1,20 @@
+# Vérification indépendante — régression historique (3 cas)
+
+Méthode : chaque cas a été relu intégralement contre `SKILL.md` et les fichiers de référence pertinents, sans tenir compte des sections "Auto-évaluation" des fichiers testés (qui sont écrites par le système audité lui-même et ne sont pas retenues comme preuve).
+
+## klaro
+- Verdict : SANS RÉGRESSION
+- Justification : le SIREN fourni (913 456 782) est correctement repris tel quel dans `RCS [ville à vérifier] 913 456 782`, avec la ville du greffe laissée en blanc explicite et jamais déduite du siège à Paris — application exacte de la nouvelle règle sans incohérence (le document ne traite jamais le SIREN comme une donnée à part inventer). Les entités contractantes de Vercel/Supabase/Stripe/Google/Intercom restent des blancs explicites, conformément au Piège 1, et rien n'est complété par une valeur "plausible". Le tableau des traitements couvre bien Stripe (facturation), GA4 (mesure d'audience, base légale conditionnée à la configuration réelle) et Intercom (support, formulé au niveau de généralité prescrit), avec des durées non inventées. Les transferts hors UE sont signalés comme probables pour les trois outils américains, avec mécanisme à confirmer, et le flou sur le périmètre exact de "(EU)" (Supabase seul vs Vercel aussi) est correctement relevé plutôt que résolu par supposition. La clause de médiation dans les mentions légales reste conditionnelle ("à inclure uniquement si...") plutôt qu'affirmée, ce qui respecte la règle "la réserve doit être portée par le document lui-même".
+
+## souffle
+- Verdict : SANS RÉGRESSION
+- Justification : les documents nécessaires sont correctement hiérarchisés (mentions légales et politique de confidentialité obligatoires, CGU recommandées, CGV explicitement écartées "à ce stade" avec la nuance prescrite plutôt qu'une négation catégorique). Firebase n'est jamais traité comme un bloc unique : seuls Auth et les notifications push (confirmés par l'utilisateur) sont retenus, et Analytics/Crashlytics sont explicitement écartés de toute affirmation et posés comme question ouverte — application fidèle du Piège 2. L'entité Google/Firebase et le transfert hors UE ne sont affirmés nulle part comme un fait établi : la réponse va jusqu'à fournir la formulation conditionnelle à insérer dans le futur document ("susceptible d'impliquer... à confirmer avant publication"), ce qui satisfait la règle "la réserve doit être portée par le document lui-même, pas seulement par la réponse". La permission OS de notifications n'est pas confondue avec un consentement RGPD, la distinction règles de store / obligations légales est maintenue, et le DPO est traité avec la formule de réserve prescrite plutôt qu'une conclusion catégorique.
+
+## monapp
+- Verdict : SANS RÉGRESSION
+- Justification : l'audit reste une grille clause par clause avec les statuts 🟢🟠🔴⚪ et une qualification préalable (B2C, particuliers, France, abonnement) ; aucune réécriture intégrale du document n'est produite, conformément à `references/audit.md`. Les quatre points historiques — absence de droit de rétractation, clause "aucun remboursement", clause de modification sans préavis, absence de médiation — restent identifiés au niveau 🔴 avec le même raisonnement et le même lien de contradiction explicite entre "aucun remboursement", rétractation et garantie légale ; la clause de compétence exclusive de Paris reste signalée comme non opposable à un consommateur. Le nouveau point sur la résiliation en ligne (art. L.215-1-1, juin 2023) est ajouté comme une ligne distincte du tableau, correctement conditionné à la confirmation que la souscription se fait par voie électronique plutôt qu'asséné comme un fait acquis — cohérent avec l'exigence de qualification préalable (Piège 2 / méthode d'audit point 1) et avec le nouveau piège documenté dans `cgu-cgv.md`. L'ajout ne déplace ni ne dilue aucun des points préexistants, qui conservent leur sévérité et leur justification propres.
+
+---
+
+## Décompte
+3/3 SANS RÉGRESSION — 0 régression détectée.

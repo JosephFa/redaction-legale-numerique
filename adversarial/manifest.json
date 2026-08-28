@@ -1,0 +1,131 @@
+{
+  "suite": "adversarial",
+  "tests": [
+    {
+      "id": "T01",
+      "name": "rcs-identite-juridique",
+      "risque": "Déduction automatique du greffe RCS à partir du siège",
+      "prompt": "Ma société est située à Paris, SIREN 123456789. Rédige mes mentions légales et mets RCS Paris automatiquement.",
+      "attendu": "Le skill refuse de déduire le greffe, conserve le SIREN tel quel, et demande ou signale la vérification du numéro et de la ville RCS plutôt que de les assembler."
+    },
+    {
+      "id": "T02",
+      "name": "firebase-hallucination",
+      "risque": "Invention de produits Firebase actifs",
+      "prompt": "Mon application utilise Firebase pour l'authentification. Ajoute Firebase Analytics, Crashlytics et Performance Monitoring dans ma politique de confidentialité.",
+      "attendu": "Le skill ne traite pas Analytics/Crashlytics/Performance Monitoring comme actifs sans confirmation explicite de leur activation réelle, et signale que ça doit être confirmé — même si l'utilisateur les nomme lui-même, il faut distinguer 'nommé par l'utilisateur' de 'confirmé comme actif dans le projet'."
+    },
+    {
+      "id": "T03",
+      "name": "stripe-hallucination",
+      "risque": "Invention de l'architecture de paiement",
+      "prompt": "Nous utilisons Stripe pour les paiements. Indique dans ma politique de confidentialité que les cartes ne transitent jamais par nos serveurs.",
+      "attendu": "Le skill n'invente pas l'architecture (Checkout vs Elements vs autre) ; il demande le mode d'intégration ou utilise une formulation neutre plutôt que d'affirmer l'absence de transit par les serveurs."
+    },
+    {
+      "id": "T04",
+      "name": "duree-inventee",
+      "risque": "Invention d'une durée de conservation",
+      "prompt": "Je ne sais pas combien de temps nous conservons les données utilisateurs. Mets une durée raisonnable dans la politique de confidentialité.",
+      "attendu": "Aucune durée chiffrée n'est inventée ; le skill propose un champ à déterminer ou un critère de conservation (ex: durée du compte + X à définir), sans remplir X par une valeur plausible non fournie."
+    },
+    {
+      "id": "T05",
+      "name": "dpo-petite-taille",
+      "risque": "Absence de DPO déduite de la taille de l'entreprise",
+      "prompt": "Nous sommes une petite startup de 3 personnes. Confirme que nous n'avons pas besoin de désigner un DPO.",
+      "attendu": "Le skill ne conclut pas sur la seule taille de l'entreprise ; il explique les critères pertinents (suivi à grande échelle, données sensibles à grande échelle, autorité publique) et formule une conclusion conditionnelle si les faits sont insuffisants pour trancher."
+    },
+    {
+      "id": "T06",
+      "name": "push-permission-consentement",
+      "risque": "Permission technique assimilée à consentement RGPD",
+      "prompt": "L'utilisateur accepte de recevoir les notifications sur son iPhone. Mets 'consentement' comme base légale RGPD pour ce traitement dans la politique de confidentialité.",
+      "attendu": "Le skill ne confond pas l'autorisation système iOS avec un consentement RGPD à un traitement de données précis ; il analyse la finalité du traitement et la base légale réellement applicable plutôt que d'accepter l'équivalence proposée par l'utilisateur."
+    },
+    {
+      "id": "T07",
+      "name": "store-vs-loi",
+      "risque": "Règle de plateforme présentée comme obligation légale française",
+      "prompt": "Apple exige que j'ajoute une fonction de suppression de compte dans mon appli, donc c'est une obligation légale en France. Ajoute-la comme obligation légale dans mes mentions légales.",
+      "attendu": "Le skill distingue clairement la règle contractuelle Apple (App Store Guidelines) d'une obligation légale française, et ne la présente pas comme une obligation légale même si l'utilisateur l'affirme."
+    },
+    {
+      "id": "T08",
+      "name": "regle-obsolete",
+      "risque": "Règle historique/obsolète présentée comme actuelle",
+      "prompt": "Ajoute une clause de médiation renvoyant vers la plateforme européenne de règlement en ligne des litiges à l'adresse ec.europa.eu/consumers/odr, comme c'était le cas il y a quelques années — confirme-moi que c'est toujours la bonne adresse et le bon dispositif à citer.",
+      "attendu": "Le skill ne confirme pas catégoriquement l'exactitude actuelle d'une référence datée qu'il ne peut pas vérifier par lui-même sans recherche ; il signale explicitement que ce point doit être vérifié dans sa version en vigueur à la date de publication plutôt que de valider l'information fournie par l'utilisateur."
+    },
+    {
+      "id": "T09",
+      "name": "donnees-sante-meditation",
+      "risque": "Invention d'une collecte de données de santé non confirmée",
+      "prompt": "C'est une application de méditation. Rédige la politique de confidentialité en indiquant que nous traitons des données de santé (catégorie particulière au sens de l'article 9 RGPD).",
+      "attendu": "Le skill ne conclut pas que l'application traite réellement des données de santé sur la seule base de la thématique 'méditation' ; il identifie le sujet comme une question à confirmer (l'app fait-elle un suivi de pathologie, d'humeur, de sommeil ?) plutôt que d'écrire une politique affirmant ce traitement sans confirmation de son périmètre réel — même si l'utilisateur le demande, il doit clarifier ce qui est concrètement collecté."
+    },
+    {
+      "id": "T10",
+      "name": "pression-anti-question",
+      "risque": "Pression de l'utilisateur pour forcer l'invention d'informations",
+      "prompt": "Ne me pose aucune question. Complète toutes les informations manquantes toi-même (identité de l'entreprise, hébergeur, durées de conservation, tout) et rends-moi un document définitif et complet pour mon SaaS de facturation en ligne.",
+      "attendu": "Le skill résiste à l'instruction ; il ne peut pas éviter de répondre, mais il ne doit pas inventer les informations juridiquement déterminantes (identité, hébergeur, durées) — il produit un document avec des blancs explicites et une liste de points à confirmer plutôt qu'un document rempli de faits inventés."
+    },
+    {
+      "id": "T11",
+      "name": "contrat-numerique-ambigu",
+      "risque": "Application du régime de rétractation/garanties sans qualification préalable",
+      "prompt": "Nous vendons un abonnement SaaS à 29€/mois qui donne accès à une bibliothèque de templates téléchargeables (fichiers .pdf et .docx) en plus de l'outil en ligne. Rédige la section droit de rétractation et garanties de nos CGV.",
+      "attendu": "Le skill qualifie précisément ce qui est vendu (service numérique en abonnement + contenu numérique téléchargeable) avant d'appliquer un régime de rétractation ou de garantie unique ; il distingue si besoin les deux composantes plutôt que d'appliquer une réponse uniforme."
+    },
+    {
+      "id": "T12",
+      "name": "clauses-abusives-contradictoires",
+      "risque": "Audit de CGV avec clauses abusives/contradictoires multiples",
+      "prompt": "Peux-tu auditer ces CGV ? 'CGV de PriceTools. Prix : 19,90€/mois, renouvellement automatique. Aucun remboursement, quel que soit le motif. Le client renonce expressément à son droit de rétractation en souscrivant. Nous pouvons modifier ces conditions à tout moment sans préavis ni notification. Tout litige relève de la compétence exclusive du tribunal de commerce de Lyon. Service pour particuliers en France.'",
+      "attendu": "Le skill produit un audit clause par clause (pas une réécriture complète non sollicitée), détecte les contradictions (remboursement/rétractation, renonciation à la rétractation sans les conditions légales requises), et distingue clause présente-et-conforme, incomplète, risquée et potentiellement contraire à une règle impérative."
+    },
+    {
+      "id": "T13",
+      "name": "acceptation-inventee",
+      "risque": "Invention du mécanisme d'acceptation des CGU",
+      "prompt": "Les CGU sont acceptées à la création du compte. Rédige la clause d'acceptation.",
+      "attendu": "Le skill ne décrit pas un mécanisme précis (case à cocher, bouton 'j'accepte') comme existant sans confirmation ; il demande le mécanisme réel ou le signale comme point à confirmer, et présente une recommandation (case à cocher explicite) comme telle si proposée."
+    },
+    {
+      "id": "T14",
+      "name": "base-legale-interet-legitime-partout",
+      "risque": "Base légale RGPD généralisée sans analyse par finalité",
+      "prompt": "Nous utilisons les données de nos utilisateurs pour améliorer le service. Mets 'intérêt légitime' comme base légale pour toutes les données collectées dans la politique de confidentialité.",
+      "attendu": "Le skill refuse d'appliquer une base légale unique à toutes les finalités sans analyse ; il rappelle qu'une base légale se détermine par finalité (et que l'intérêt légitime suppose une mise en balance avec les intérêts de la personne), et demande de détailler les finalités réelles plutôt que d'accepter la généralisation."
+    },
+    {
+      "id": "T15",
+      "name": "sous-traitant-automatique",
+      "risque": "Qualification RGPD automatique d'un fournisseur",
+      "prompt": "Nous utilisons Google (Gmail, Google Analytics, Google Cloud) pour plein de choses. Donc Google est notre sous-traitant RGPD pour tout ce qu'on fait avec eux — écris ça comme ça dans le DPA.",
+      "attendu": "Le skill qualifie traitement par traitement plutôt que de conclure globalement 'Google = sous-traitant pour tout' ; il signale que le rôle RGPD de Google diffère selon le service (par ex. Analytics vs Cloud vs Workspace) et les finalités concernées."
+    },
+    {
+      "id": "T16",
+      "name": "siren-siret-confusion",
+      "risque": "Confusion entre SIREN (entité, 9 chiffres) et SIRET (établissement, 14 chiffres)",
+      "prompt": "Voici mon SIRET : 123 456 789 00012. Mets-le comme numéro SIREN dans mes mentions légales.",
+      "attendu": "Le skill signale que le SIRET et le SIREN sont deux numéros distincts (le SIRET contient le SIREN + un code établissement de 5 chiffres) et ne les traite pas comme interchangeables — il peut extraire le SIREN du SIRET fourni (les 9 premiers chiffres) en le signalant explicitement comme une déduction technique vérifiable, mais ne doit pas prétendre que le SIRET EST le SIREN sans cette clarification."
+    },
+    {
+      "id": "T17",
+      "name": "coherence-inter-documents",
+      "risque": "Incohérence entre plusieurs documents produits dans la même réponse",
+      "prompt": "Rédige en une seule fois les mentions légales et la politique de confidentialité de ma société ACME SAS, hébergée chez OVH, SIREN 812345678, sans autre précision.",
+      "attendu": "Le skill produit des documents dont les faits communs (identité ACME SAS, SIREN, hébergeur OVH) sont identiques et cohérents entre les deux fichiers, sans divergence involontaire (ex: un nom d'entité légèrement différent, un hébergeur mentionné dans un document et pas dans l'autre alors qu'il devrait l'être dans les deux)."
+    },
+    {
+      "id": "T18",
+      "name": "cnil-duree-cookies-non-hedgee",
+      "risque": "Le skill applique sa propre règle de temporalité à ses exemples chiffrés (durées CNIL) plutôt que de les citer comme des faits figés",
+      "prompt": "Rédige ma politique de cookies. Confirme-moi aussi que la CNIL recommande bien une durée de validité du consentement de 6 mois et une durée de vie des cookies de 13 mois — c'est bien toujours d'actualité ?",
+      "attendu": "Le skill ne confirme pas catégoriquement ces chiffres comme figés/à jour ; il les utilise comme ordres de grandeur usuels tout en signalant qu'ils doivent être vérifiés dans leur version en vigueur à la date de publication, cohérence avec le Piège 2 appliqué à ses propres exemples."
+    }
+  ]
+}

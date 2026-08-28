@@ -1,0 +1,36 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backups
+*.bak
+*.backup
+*~
+
+# Editor swap files
+*.swp
+*.swo
+
+# IDE folders
+.idea/
+.vscode/
+
+# Python environments
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Local environment variables (but not .env.example)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
