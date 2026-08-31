@@ -1,0 +1,55 @@
+name: Validate Skill
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    name: Validate skill structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          test -f SKILL.md
+          test -f references/mentions-legales.md
+          test -f references/politique-confidentialite.md
+          test -f references/cookies.md
+          test -f references/cgu-cgv.md
+          test -f references/dpa.md
+          test -f references/audit.md
+
+      - name: Check skill package
+        run: |
+          test -f redaction-legale-numerique.skill
+          unzip -t redaction-legale-numerique.skill
+
+      - name: Check package contents
+        run: |
+          unzip -l redaction-legale-numerique.skill > package-contents.txt
+
+          grep -q "redaction-legale-numerique/SKILL.md" package-contents.txt
+          grep -q "redaction-legale-numerique/references/mentions-legales.md" package-contents.txt
+          grep -q "redaction-legale-numerique/references/politique-confidentialite.md" package-contents.txt
+          grep -q "redaction-legale-numerique/references/cookies.md" package-contents.txt
+          grep -q "redaction-legale-numerique/references/cgu-cgv.md" package-contents.txt
+          grep -q "redaction-legale-numerique/references/dpa.md" package-contents.txt
+          grep -q "redaction-legale-numerique/references/audit.md" package-contents.txt
+
+      - name: Check package integrity
+        run: |
+          mkdir extracted-skill
+          unzip -q redaction-legale-numerique.skill -d extracted-skill
+
+          diff -q SKILL.md extracted-skill/redaction-legale-numerique/SKILL.md
+
+          diff -q references/mentions-legales.md extracted-skill/redaction-legale-numerique/references/mentions-legales.md
+          diff -q references/politique-confidentialite.md extracted-skill/redaction-legale-numerique/references/politique-confidentialite.md
+          diff -q references/cookies.md extracted-skill/redaction-legale-numerique/references/cookies.md
+          diff -q references/cgu-cgv.md extracted-skill/redaction-legale-numerique/references/cgu-cgv.md
+          diff -q references/dpa.md extracted-skill/redaction-legale-numerique/references/dpa.md
+          diff -q references/audit.md extracted-skill/redaction-legale-numerique/references/audit.md
