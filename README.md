@@ -138,4 +138,3 @@ This project is licensed under the [MIT License](LICENSE).
 Current release: **v1.0.0**.
 See [`CHANGELOG.md`](CHANGELOG.md) for the project's release history and changes.
 
-Current development version. No formal release or version tag has been published yet — see [`CHANGELOG.md`](CHANGELOG.md) for the current state of the project under `[Unreleased]`.
