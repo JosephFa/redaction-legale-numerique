@@ -1,5 +1,5 @@
 name: Bug or Legal Issue
-about: Report an incorrect behavior, legal reference, or reliability issue
+description: Report an incorrect behavior, legal reference, or reliability issue
 title: "[Issue]: "
 labels: []
 body:
