@@ -2,8 +2,6 @@
 
 A Claude Agent Skill that assists with drafting and reviewing standard legal documents for digital products under French and EU law.
 
-test test
-
 ## Overview
 
 This skill helps produce or review the legal documents a website, mobile app, SaaS product, or e-commerce site typically needs to operate under French law and the GDPR: a legal notice (*mentions légales*), a privacy policy, a cookies policy, terms of use / terms of sale (*CGU/CGV*), and a data processing agreement (*DPA*, GDPR Article 28).
