@@ -1,0 +1,59 @@
+name: Feature or Improvement
+description: Suggest an improvement, new capability, document type, or test scenario
+title: "[Improvement]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing ideas to improve French Legal Drafting & Review.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Describe your idea
+      description: What would you like to improve, add, or change?
+      placeholder: Clearly describe the proposed improvement.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What problem would this solve? In which situation would it be useful?
+      placeholder: Describe the use case or limitation you encountered.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Related area
+      description: Which part of the project is most relevant?
+      options:
+        - SKILL.md behavior
+        - Legal document drafting
+        - Legal document review or audit
+        - GDPR or privacy analysis
+        - New document type
+        - Testing or evaluation
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example or proposed approach
+      description: If useful, provide a fictional example, scenario, or suggested approach.
+      placeholder: Please do not include personal, confidential, or real client data.
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: I confirm that I have not included confidential or personal data.
+          required: true
